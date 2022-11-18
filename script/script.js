@@ -102,6 +102,20 @@ function getRandom(arr) {
 function generatePassword() {
   // Prompt user for password length
   let passSize = prompt("Please enter the Length of Password", "At least 10 characters but no more than 64.");
+
+  // Check if the user pressed "Cancel".
+  if (passSize == null) {
+    return;
+    // Check password length is between 10 & 64, and whether it is a number.
+  } else {
+    if (passSize < 10 || passSize > 64 || isNaN(passSize)) {
+      alert("Please insert a number between 10 and 64.");
+      writePassword();
+    } else {
+      return;
+    };
+  };
+
 }
 
 // Get references to the #generate element
