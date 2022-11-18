@@ -90,6 +90,25 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+  // Lowercase
+  if (confirm("Do you wish to include lowercase characters?") == true) {
+    passwordCriteria += lowerCasedCharacters
+  };
+
+  //Uppercase
+  if (confirm("Do you wish to include uppercase characters?") == true) {
+    passwordCriteria += upperCasedCharacters
+  };
+
+  // Numeric
+  if (confirm("Do you wish to include numeric characters?") == true) {
+    passwordCriteria += numericCharacters
+  };
+
+  //Special characters ($@%&*, etc)
+  if (confirm("Do you wish to include special characters?") == true) {
+    passwordCriteria += specialCharacters
+  };
 
 }
 
@@ -112,6 +131,8 @@ function generatePassword() {
       alert("Please insert a number between 10 and 64.");
       writePassword();
     } else {
+      // Call the function to prompt user for password options
+      getPasswordOptions();
       return;
     };
   };
