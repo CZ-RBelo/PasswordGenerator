@@ -100,7 +100,8 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-
+  // Prompt user for password length
+  let passSize = prompt("Please enter the Length of Password", "At least 10 characters but no more than 64.");
 }
 
 // Get references to the #generate element
