@@ -88,39 +88,54 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+var passwordCriteria = [];
+
 // Function to prompt user for password options
 function getPasswordOptions() {
   // Lowercase
   if (confirm("Do you wish to include lowercase characters?") == true) {
-    passwordCriteria += lowerCasedCharacters
+    passwordCriteria = passwordCriteria.concat(lowerCasedCharacters);
   };
 
   //Uppercase
   if (confirm("Do you wish to include uppercase characters?") == true) {
-    passwordCriteria += upperCasedCharacters
+    passwordCriteria = passwordCriteria.concat(upperCasedCharacters);
   };
 
   // Numeric
   if (confirm("Do you wish to include numeric characters?") == true) {
-    passwordCriteria += numericCharacters
+    passwordCriteria = passwordCriteria.concat(numericCharacters);
   };
 
   //Special characters ($@%&*, etc)
   if (confirm("Do you wish to include special characters?") == true) {
-    passwordCriteria += specialCharacters
+    passwordCriteria = passwordCriteria.concat(specialCharacters);
   };
-
+  // Return the user criteria
+  return passwordCriteria;
 }
 
 // Function for getting a random element from an array
-function getRandom(arr) {
-
+function getRandom(size, arr) {
+  var randomChar=[];
+  // Loop - till the password size
+  for (let i = 0; i < size; i++) {
+    // Get a random array index
+    var randomIndex = Math.floor(Math.random() * arr.length);
+    // Get the array value from the random index
+    randomChar += arr[randomIndex];
+  };
+  // Return the password
+  return randomChar;
 }
-
 // Function to generate password with user input
 function generatePassword() {
+
+  // New Array with User Password Criteria
+  passwordCriteria = [];
+
   // Prompt user for password length
-  let passSize = prompt("Please enter the Length of Password", "At least 10 characters but no more than 64.");
+  let passSize = prompt("Please, enter the Length of Password", "At least 10 characters but no more than 64.");
 
   // Check if the user pressed "Cancel".
   if (passSize == null) {
@@ -128,15 +143,25 @@ function generatePassword() {
     // Check password length is between 10 & 64, and whether it is a number.
   } else {
     if (passSize < 10 || passSize > 64 || isNaN(passSize)) {
-      alert("Please insert a number between 10 and 64.");
+      alert("Please, insert a number between 10 and 64.");
+      // Prompt user for password length again
       writePassword();
     } else {
+
       // Call the function to prompt user for password options
-      getPasswordOptions();
-      return;
+      passwordCriteria = getPasswordOptions();
+
+      //Check if the user criteria is empty or undefined
+      if (typeof passwordCriteria !== 'undefined' && passwordCriteria.length > 0) {
+        // Call the function for getting a random element from an array
+        var strPassword = getRandom(passSize, passwordCriteria);
+        // Return the password
+        return strPassword;
+      } else {
+        alert("Please, choose at least one criteria.");
+      };
     };
   };
-
 }
 
 // Get references to the #generate element
@@ -146,7 +171,6 @@ var generateBtn = document.querySelector('#generate');
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector('#password');
-
   passwordText.value = password;
 }
 
